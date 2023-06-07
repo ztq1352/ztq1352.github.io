@@ -1,0 +1,430 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>工具类总结(一) | Tsang的博客</title><meta name="keywords" content="fastjson,stream,StringUtils"><meta name="author" content="Tsang"><meta name="copyright" content="Tsang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="时间戳格式化1234long time &#x3D; 时间戳;SimpleDateFormat simpleDateFormat &#x3D; new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);Date date &#x3D; new Date(time);String format &#x3D; simpleDateFormat.format(date);  fastjson工具类：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工具类总结(一)">
+<meta property="og:url" content="https://ztq1352.github.io/2023/06/05/conclusion01/index.html">
+<meta property="og:site_name" content="Tsang的博客">
+<meta property="og:description" content="时间戳格式化1234long time &#x3D; 时间戳;SimpleDateFormat simpleDateFormat &#x3D; new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm&quot;);Date date &#x3D; new Date(time);String format &#x3D; simpleDateFormat.format(date);  fastjson工具类：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/05/pCCVOq1.png">
+<meta property="article:published_time" content="2023-06-05T00:06:18.714Z">
+<meta property="article:modified_time" content="2023-06-05T00:15:59.918Z">
+<meta property="article:author" content="Tsang">
+<meta property="article:tag" content="fastjson">
+<meta property="article:tag" content="stream">
+<meta property="article:tag" content="StringUtils">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/06/05/pCCVOq1.png"><link rel="shortcut icon" href="https://s1.ax1x.com/2023/05/25/p9HMD0J.jpg"><link rel="canonical" href="https://ztq1352.github.io/2023/06/05/conclusion01/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-05 08:15:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://s1.ax1x.com/2023/05/25/p9HMD0J.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s1.ax1x.com/2023/06/05/pCCVOq1.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Tsang的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">工具类总结(一)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-05T00:06:18.714Z" title="发表于 2023-06-05 08:06:18">2023-06-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-05T00:15:59.918Z" title="更新于 2023-06-05 08:15:59">2023-06-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">学习总结</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="工具类总结(一)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="时间戳格式化"><a href="#时间戳格式化" class="headerlink" title="时间戳格式化"></a>时间戳格式化</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="variable">time</span> <span class="operator">=</span> 时间戳;</span><br><span class="line"><span class="type">SimpleDateFormat</span> <span class="variable">simpleDateFormat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleDateFormat</span>(<span class="string">&quot;yyyy-MM-dd HH:mm&quot;</span>);</span><br><span class="line"><span class="type">Date</span> <span class="variable">date</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>(time);</span><br><span class="line"><span class="type">String</span> <span class="variable">format</span> <span class="operator">=</span> simpleDateFormat.format(date);</span><br></pre></td></tr></table></figure>
+
+<h3 id="fastjson工具类：json的转化"><a href="#fastjson工具类：json的转化" class="headerlink" title="fastjson工具类：json的转化"></a>fastjson工具类：json的转化</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>依赖包：</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;fastjson&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;版本根据自己需要&lt;/version&gt;</span><br><span class="line">	&lt;/dependency&gt;</span><br><span class="line"><span class="number">2.</span>fastjson的API：</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Object <span class="title function_">parse</span><span class="params">(String text)</span>; <span class="comment">// 把JSON文本parse为JSONObject或者JSONArray</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> JSONObject <span class="title function_">parseObject</span><span class="params">(String text)</span>； <span class="comment">// 把JSON文本parse成JSONObject </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;T&gt; T <span class="title function_">parseObject</span><span class="params">(String text, Class&lt;T&gt; clazz)</span>; <span class="comment">// 把JSON文本parse为JavaBean </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> JSONArray <span class="title function_">parseArray</span><span class="params">(String text)</span>; <span class="comment">// 把JSON文本parse成JSONArray </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;T&gt; List&lt;T&gt; <span class="title function_">parseArray</span><span class="params">(String text, Class&lt;T&gt; clazz)</span>; <span class="comment">//把JSON文本parse成JavaBean集合 </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String <span class="title function_">toJSONString</span><span class="params">(Object object)</span>; <span class="comment">// 将JavaBean序列化为JSON文本 </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String <span class="title function_">toJSONString</span><span class="params">(Object object, <span class="type">boolean</span> prettyFormat)</span>; <span class="comment">// 将JavaBean序列化为带格式的JSON文本 </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Object <span class="title function_">toJSON</span><span class="params">(Object javaObject)</span>; <span class="comment">//将JavaBean转换为JSONObject或者JSONArray。</span></span><br><span class="line"><span class="number">3.</span>案例：</span><br><span class="line"><span class="comment">//List集合转json字符串格式</span></span><br><span class="line"><span class="type">String</span> <span class="variable">jsonString</span> <span class="operator">=</span> JSON.toJSONString(List集合);</span><br><span class="line"><span class="comment">//json字符串转json数组</span></span><br><span class="line"><span class="type">JSONArray</span> <span class="variable">jsonStringToArray</span> <span class="operator">=</span> JSONArray.parseArray(json字符串);</span><br><span class="line"><span class="comment">//json数组对象转json字符串格式</span></span><br><span class="line"><span class="type">String</span> <span class="variable">jsonString</span> <span class="operator">=</span> JSON.toJSONString(json数组对象);</span><br></pre></td></tr></table></figure>
+
+<h3 id="遍历JsonArray对象"><a href="#遍历JsonArray对象" class="headerlink" title="遍历JsonArray对象"></a>遍历JsonArray对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">*array:jsonArray</span></span><br><span class="line"><span class="comment">*replaceKey:需要替换的key</span></span><br><span class="line"><span class="comment">*replaceValue:需要替换的值</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> JSONArray <span class="title function_">replaceValue2JSONArray</span><span class="params">(JSONArray array,String replaceKey,String replaceValue)</span> &#123;</span><br><span class="line">        <span class="type">JSONArray</span> <span class="variable">jsonArray</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONArray</span>();</span><br><span class="line">        <span class="keyword">if</span> (array == <span class="literal">null</span> || array.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> jsonArray;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; array.size(); i++) &#123;</span><br><span class="line">            <span class="type">JSONObject</span> <span class="variable">jsonObject2</span> <span class="operator">=</span> array.getJSONObject(i);</span><br><span class="line">            Set&lt;String&gt; keys = jsonObject2.keySet();</span><br><span class="line">            <span class="keyword">for</span> (String curKey : keys) &#123;</span><br><span class="line">                <span class="comment">/*	指定key替换value值</span></span><br><span class="line"><span class="comment">                if (curKey.equalsIgnoreCase(replaceKey)) &#123;</span></span><br><span class="line"><span class="comment">                    jsonObject2.put(curKey,replaceValue);</span></span><br><span class="line"><span class="comment">                &#125;*/</span></span><br><span class="line">                <span class="comment">//打印key、和对应的value值</span></span><br><span class="line">                System.out.println(curKey,jsonObject2.get(curKey));</span><br><span class="line">            &#125;</span><br><span class="line">            jsonArray.add(jsonObject2);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> jsonArray;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对象之间的转换"><a href="#对象之间的转换" class="headerlink" title="对象之间的转换"></a>对象之间的转换</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>obj对象转为<span class="type">long</span>：</span><br><span class="line">    <span class="type">long</span> <span class="variable">l</span> <span class="operator">=</span> Long.valueOf(String.valueOf(o));</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据某个字符分割字符串数组，转成List集合"><a href="#根据某个字符分割字符串数组，转成List集合" class="headerlink" title="根据某个字符分割字符串数组，转成List集合"></a>根据某个字符分割字符串数组，转成List集合</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">String key = &quot;体温#收缩压#舒张压#脉搏#SPO2#呼吸频率#心律#血糖&quot;;</span><br><span class="line">String value = &quot;36.9#219#110#96#95###&quot;;</span><br><span class="line">String value2 = &quot;36.5###95####&quot;;</span><br><span class="line">String[] keylist= key.split(&quot;#&quot;);</span><br><span class="line">String[] valuelist= value.split(&quot;#&quot;);</span><br><span class="line">String[] valuelist2= value2.split(&quot;#&quot;);</span><br><span class="line">List&lt;String&gt; arr = Arrays.asList(keylist);</span><br><span class="line">List&lt;String&gt; arr2 = Arrays.asList(valuelist);</span><br><span class="line">List&lt;String&gt; arr3 = Arrays.asList(valuelist2);</span><br><span class="line">System.out.println(&quot;keylist大小=&quot;+arr.size());</span><br><span class="line">for (String arrall : arr) &#123;</span><br><span class="line">System.out.print(arrall+&quot;&lt;-&quot;);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println();</span><br><span class="line">System.out.println(&quot;valuelist大小=&quot;+arr2.size());</span><br><span class="line">for (String arrall : arr2) &#123;</span><br><span class="line">System.out.print(arrall+&quot;&lt;-&quot;);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println();</span><br><span class="line">System.out.println(&quot;valuelist2大小=&quot;+arr3.size());</span><br><span class="line">for (String arrall : arr3) &#123;</span><br><span class="line">System.out.print(arrall+&quot;&lt;-&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">注意：使用split分割成数组时，如果分割得符号后面都没有值的话，将不会添加空值。</span><br></pre></td></tr></table></figure>
+
+<h3 id="stream流"><a href="#stream流" class="headerlink" title="stream流"></a>stream流</h3><h4 id="开始管道"><a href="#开始管道" class="headerlink" title="开始管道"></a>开始管道</h4><p>主要负责新建一个Stream流，或者基于现有的数组、List、Set、Map等集合类型对象创建出新的Stream流。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>stream()</td>
+<td>创建出一个新的stream串行流对象</td>
+</tr>
+<tr>
+<td>parallelStream()</td>
+<td>创建出一个可并行执行的stream流对象</td>
+</tr>
+<tr>
+<td>Stream.of()</td>
+<td>通过给定的一系列元素创建一个新的Stream串行流对象</td>
+</tr>
+</tbody></table>
+<h4 id="中间管道"><a href="#中间管道" class="headerlink" title="中间管道"></a>中间管道</h4><p>负责对Stream进行处理操作，并返回一个新的Stream对象，中间管道操作可以进行<strong>叠加</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>filter()</td>
+<td>按照条件过滤符合要求的元素， 返回新的stream流</td>
+</tr>
+<tr>
+<td>map()</td>
+<td>将已有元素转换为另一个对象类型，一对一逻辑，返回新的stream流</td>
+</tr>
+<tr>
+<td>flatMap()</td>
+<td>将已有元素转换为另一个对象类型，一对多逻辑，即原来一个元素对象可能会转换为1个或者多个新类型的元素，返回新的stream流</td>
+</tr>
+<tr>
+<td>limit()</td>
+<td>仅保留集合前面指定个数的元素，返回新的stream流</td>
+</tr>
+<tr>
+<td>skip()</td>
+<td>跳过集合前面指定个数的元素，返回新的stream流</td>
+</tr>
+<tr>
+<td>concat()</td>
+<td>将两个流的数据合并起来为1个新的流，返回新的stream流</td>
+</tr>
+<tr>
+<td>distinct()</td>
+<td>对Stream中所有元素进行去重，返回新的stream流</td>
+</tr>
+<tr>
+<td>sorted()</td>
+<td>对stream中所有的元素按照指定规则进行排序，返回新的stream流</td>
+</tr>
+<tr>
+<td>peek()</td>
+<td>对stream流中的每个元素进行逐个遍历处理，返回处理后的stream流</td>
+</tr>
+</tbody></table>
+<h4 id="终极管道"><a href="#终极管道" class="headerlink" title="终极管道"></a>终极管道</h4><p>顾名思义，通过终止管道操作之后，Stream流将<strong>会结束</strong>，最后可能会执行某些逻辑处理，或者是按照要求返回某些执行后的结果数据。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>count()</td>
+<td>返回stream处理后最终的元素个数</td>
+</tr>
+<tr>
+<td>max()</td>
+<td>返回stream处理后的元素最大值</td>
+</tr>
+<tr>
+<td>min()</td>
+<td>返回stream处理后的元素最小值</td>
+</tr>
+<tr>
+<td>findFirst()</td>
+<td>找到第一个符合条件的元素时则终止流处理</td>
+</tr>
+<tr>
+<td>findAny()</td>
+<td>找到任何一个符合条件的元素时则退出流处理，这个<strong>对于串行流时与findFirst相同，对于并行流时比较高效</strong>，任何分片中找到都会终止后续计算逻辑</td>
+</tr>
+<tr>
+<td>anyMatch()</td>
+<td>返回一个boolean值，类似于isContains(),用于判断是否有符合条件的元素</td>
+</tr>
+<tr>
+<td>allMatch()</td>
+<td>返回一个boolean值，用于判断是否所有元素都符合条件</td>
+</tr>
+<tr>
+<td>noneMatch()</td>
+<td>返回一个boolean值， 用于判断是否所有元素都不符合条件</td>
+</tr>
+<tr>
+<td>collect()</td>
+<td>将流转换为指定的类型，通过Collectors进行指定</td>
+</tr>
+<tr>
+<td>toArray()</td>
+<td>将流转换为数组</td>
+</tr>
+<tr>
+<td>iterator()</td>
+<td>将流转换为Iterator对象</td>
+</tr>
+<tr>
+<td>foreach()</td>
+<td>无返回值，对元素进行逐个遍历，然后执行给定的处理逻辑</td>
+</tr>
+</tbody></table>
+<h3 id="Collectors提供的收集器"><a href="#Collectors提供的收集器" class="headerlink" title="Collectors提供的收集器"></a>Collectors提供的收集器</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>toList</td>
+<td>将流中的元素收集到一个List中</td>
+</tr>
+<tr>
+<td>toSet</td>
+<td>将流中的元素收集到一个Set中</td>
+</tr>
+<tr>
+<td>toCollection</td>
+<td>将流中的元素收集到一个Collection中</td>
+</tr>
+<tr>
+<td>toMap</td>
+<td>将流中的元素映射收集到一个Map中</td>
+</tr>
+<tr>
+<td>counting</td>
+<td>统计流中的元素个数</td>
+</tr>
+<tr>
+<td>summingInt</td>
+<td>计算流中指定int字段的累加总和。针对不同类型的数字类型，有不同的方法，比如summingDouble等</td>
+</tr>
+<tr>
+<td>averagingInt</td>
+<td>计算流中指定int字段的平均值。针对不同类型的数字类型，有不同的方法，比如averagingLong等</td>
+</tr>
+<tr>
+<td>joining</td>
+<td>将流中所有元素（或者元素的指定字段）字符串值进行拼接，可以指定拼接连接符，或者首尾拼接字符</td>
+</tr>
+<tr>
+<td>maxBy</td>
+<td>根据给定的比较器，选择出值最大的元素</td>
+</tr>
+<tr>
+<td>minBy</td>
+<td>根据给定的比较器，选择出值最小的元素</td>
+</tr>
+<tr>
+<td>groupingBy</td>
+<td>根据给定的分组函数的值进行分组，输出一个Map对象</td>
+</tr>
+<tr>
+<td>partitioningBy</td>
+<td>根据给定的分区函数的值进行分区，输出一个Map对象，且key始终为布尔值类型</td>
+</tr>
+<tr>
+<td>collectingAndThen</td>
+<td>包裹另一个收集器，对其结果进行二次加工转换</td>
+</tr>
+<tr>
+<td>reducing</td>
+<td>从给定的初始值开始，将元素进行逐个的处理，最终将所有元素计算为最终的1个值输出</td>
+</tr>
+</tbody></table>
+<h3 id="StringUtils工具类之isBlank-与isEmpty的使用"><a href="#StringUtils工具类之isBlank-与isEmpty的使用" class="headerlink" title="StringUtils工具类之isBlank()与isEmpty的使用"></a>StringUtils工具类之isBlank()与isEmpty的使用</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">isBlank()</span><br><span class="line">    校验一个String类型的变量是否为空</span><br><span class="line">    可以校验三种情况：是否为null、是否为&quot;&quot;、是否为空字符串(引号中间有空格)&quot; &quot;、制表符、换行符、换页符和回车。</span><br><span class="line">    StringUtils.isBlank(str); 当str不为空时，返回值为false。</span><br><span class="line">isEmpty()</span><br><span class="line">	isEmpty没有忽略空格参数，是以是否为空和是否存在未判断依据。</span><br><span class="line">案例：</span><br><span class="line">	StringUtils.isEmpty(&quot;yyy&quot;) = false</span><br><span class="line">    StringUtils.isEmpty(&quot;&quot;) = true</span><br><span class="line">    StringUtils.isEmpty(&quot;   &quot;) = false</span><br><span class="line"></span><br><span class="line">    StringUtils.isBlank(&quot;yyy&quot;) = false</span><br><span class="line">    StringUtils.isBlank(&quot;&quot;) = true</span><br><span class="line">    StringUtils.isBlank(&quot;   &quot;) = true</span><br></pre></td></tr></table></figure>
+
+<h3 id="list-forEach-与list-stream-forEach"><a href="#list-forEach-与list-stream-forEach" class="headerlink" title="list.forEach()与list.stream().forEach()"></a>list.forEach()与list.stream().forEach()</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list.forEach()在循环删除数据时，会立刻报异常</span><br><span class="line">list.stream().forEach()会在循环结束后，再报异常</span><br></pre></td></tr></table></figure>
+
+<h3 id="StringUtils-之-hasText"><a href="#StringUtils-之-hasText" class="headerlink" title="StringUtils 之 hasText()"></a>StringUtils 之 hasText()</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">StringUtils.hasText():如果字符序列不为 null 值,并且字符序列的长度大于 0 ,并且不含有空白字符序列,则返回 true</span><br><span class="line">org.springframework.util.StringUtils包下的</span><br></pre></td></tr></table></figure>
+
+<h3 id="IDEA快捷键"><a href="#IDEA快捷键" class="headerlink" title="IDEA快捷键"></a>IDEA快捷键</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ctrl + F</td>
+<td>在当前文件进行文本查找</td>
+</tr>
+<tr>
+<td>Ctrl + R</td>
+<td>在当前文件进行文本替换</td>
+</tr>
+<tr>
+<td>Ctrl + Z</td>
+<td>撤销</td>
+</tr>
+<tr>
+<td>Ctrl + Shift + Z</td>
+<td>取消撤销</td>
+</tr>
+<tr>
+<td>Ctrl + Y</td>
+<td>删除光标所在行 或 删除选中的行</td>
+</tr>
+<tr>
+<td>Ctrl + X</td>
+<td>剪切光标所在行 或 剪切选择内容</td>
+</tr>
+<tr>
+<td>Ctrl + C</td>
+<td>复制光标所在行 或 复制选择内容</td>
+</tr>
+<tr>
+<td>Ctrl + D</td>
+<td>复制光标所在行 或 复制选择内容，并把复制内容插入光标位置下面</td>
+</tr>
+<tr>
+<td>Ctrl + W</td>
+<td>递进式选择代码块。可选中光标所在的单词或段落，连续按会在原有选中的基础上再扩展选中范围</td>
+</tr>
+<tr>
+<td>Ctrl + Shift + W</td>
+<td>递进式取消选择代码块。可选中光标所在的单词或段落，连续按会在原有选中的基础上再扩展取消选中范围</td>
+</tr>
+<tr>
+<td>Ctrl + 左键单击</td>
+<td>进入光标所在的方法&#x2F;变量的接口或是定义处</td>
+</tr>
+<tr>
+<td>Ctrl + &#x2F;</td>
+<td>注释光标所在行代码，会根据当前不同文件类型使用不同的注释符号</td>
+</tr>
+<tr>
+<td>Ctrl + Shift + &#x2F;</td>
+<td>代码块注释</td>
+</tr>
+<tr>
+<td>Ctrl + Shift + Enter</td>
+<td>自动结束代码，行末自动添加分号</td>
+</tr>
+<tr>
+<td>连按两次Shift</td>
+<td>弹出 <code>Search Everywhere</code> 弹出层</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Tsang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://ztq1352.github.io/2023/06/05/conclusion01/">https://ztq1352.github.io/2023/06/05/conclusion01/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://ztq1352.github.io" target="_blank">Tsang的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/fastjson/">fastjson</a><a class="post-meta__tags" href="/tags/stream/">stream</a><a class="post-meta__tags" href="/tags/StringUtils/">StringUtils</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/05/29/spring01/"><img class="prev-cover" src="https://s1.ax1x.com/2023/06/05/pCCZ9Re.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring基础（一）</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/05/mysql02/"><img class="next-cover" src="https://s1.ax1x.com/2023/06/05/pCCVLrR.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">常用MySQL函数（一）</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://s1.ax1x.com/2023/05/25/p9HMD0J.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Tsang</div><div class="author-info__description">要自信！</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ztq1352" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ztq1352@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%88%B3%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">时间戳格式化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastjson%E5%B7%A5%E5%85%B7%E7%B1%BB%EF%BC%9Ajson%E7%9A%84%E8%BD%AC%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">fastjson工具类：json的转化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E5%8E%86JsonArray%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.</span> <span class="toc-text">遍历JsonArray对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">4.</span> <span class="toc-text">对象之间的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6%E5%88%86%E5%89%B2%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%95%B0%E7%BB%84%EF%BC%8C%E8%BD%AC%E6%88%90List%E9%9B%86%E5%90%88"><span class="toc-number">5.</span> <span class="toc-text">根据某个字符分割字符串数组，转成List集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stream%E6%B5%81"><span class="toc-number">6.</span> <span class="toc-text">stream流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E7%AE%A1%E9%81%93"><span class="toc-number">6.1.</span> <span class="toc-text">开始管道</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E7%AE%A1%E9%81%93"><span class="toc-number">6.2.</span> <span class="toc-text">中间管道</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%88%E6%9E%81%E7%AE%A1%E9%81%93"><span class="toc-number">6.3.</span> <span class="toc-text">终极管道</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Collectors%E6%8F%90%E4%BE%9B%E7%9A%84%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text">Collectors提供的收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#StringUtils%E5%B7%A5%E5%85%B7%E7%B1%BB%E4%B9%8BisBlank-%E4%B8%8EisEmpty%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">8.</span> <span class="toc-text">StringUtils工具类之isBlank()与isEmpty的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list-forEach-%E4%B8%8Elist-stream-forEach"><span class="toc-number">9.</span> <span class="toc-text">list.forEach()与list.stream().forEach()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#StringUtils-%E4%B9%8B-hasText"><span class="toc-number">10.</span> <span class="toc-text">StringUtils 之 hasText()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDEA%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">11.</span> <span class="toc-text">IDEA快捷键</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/07/vue01/" title="Vue学习(一)"><img src="https://s1.ax1x.com/2023/06/07/pCFIk1e.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue学习(一)"/></a><div class="content"><a class="title" href="/2023/06/07/vue01/" title="Vue学习(一)">Vue学习(一)</a><time datetime="2023-06-07T12:13:43.417Z" title="发表于 2023-06-07 20:13:43">2023-06-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/05/mysql02/" title="常用MySQL函数（一）"><img src="https://s1.ax1x.com/2023/06/05/pCCVLrR.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用MySQL函数（一）"/></a><div class="content"><a class="title" href="/2023/06/05/mysql02/" title="常用MySQL函数（一）">常用MySQL函数（一）</a><time datetime="2023-06-05T00:07:24.464Z" title="发表于 2023-06-05 08:07:24">2023-06-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/05/conclusion01/" title="工具类总结(一)"><img src="https://s1.ax1x.com/2023/06/05/pCCVOq1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工具类总结(一)"/></a><div class="content"><a class="title" href="/2023/06/05/conclusion01/" title="工具类总结(一)">工具类总结(一)</a><time datetime="2023-06-05T00:06:18.714Z" title="发表于 2023-06-05 08:06:18">2023-06-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/29/spring01/" title="Spring基础（一）"><img src="https://s1.ax1x.com/2023/06/05/pCCZ9Re.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Spring基础（一）"/></a><div class="content"><a class="title" href="/2023/05/29/spring01/" title="Spring基础（一）">Spring基础（一）</a><time datetime="2023-05-29T07:26:16.491Z" title="发表于 2023-05-29 15:26:16">2023-05-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/29/java01/" title="Java基础（一）"><img src="https://s1.ax1x.com/2023/05/29/p9O7VeJ.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java基础（一）"/></a><div class="content"><a class="title" href="/2023/05/29/java01/" title="Java基础（一）">Java基础（一）</a><time datetime="2023-05-28T23:59:06.060Z" title="发表于 2023-05-29 07:59:06">2023-05-29</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://s1.ax1x.com/2023/06/05/pCCVOq1.png')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By Tsang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
